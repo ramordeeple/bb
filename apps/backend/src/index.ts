@@ -15,7 +15,7 @@ const app = new Elysia()
   )
   .use(cors())
   .use(usersRoutes)
-  .listen(3000);
+  .listen(process.env.BACKEND_PORT!);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
