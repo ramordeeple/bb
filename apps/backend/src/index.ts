@@ -1,19 +1,19 @@
-import { Elysia } from 'elysia';
-import { swagger } from '@elysiajs/swagger';
-import { usersRoutes } from './routes/users';
+import {Elysia} from 'elysia';
+import {swagger} from '@elysiajs/swagger';
+import {cors} from '@elysiajs/cors';
+import {usersRoutes} from './routes/users';
 
 const app = new Elysia()
   .use(
     swagger({
-      path: '/docs',
-      documentation: {
+      path: '/docs', documentation: {
         info: {
-          title: 'BB API',
-          version: '0.1.0',
+          title: 'BB API', version: '0.1.0',
         },
       },
     })
   )
+  .use(cors())
   .use(usersRoutes)
   .listen(3000);
 
