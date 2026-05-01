@@ -1,7 +1,9 @@
 {
-  "name": "frontend",
+  "name": "@bb/frontend",
   "version": "0.1.0",
   "private": true,
+  "@bb/backend": "workspace:*",
+  "@bb/schemas": "workspace:*",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +12,8 @@
   },
   "dependencies": {
     "@bb/schemas": "workspace:*",
+    "@bb/backend": "workspace:*",
+    "@elysiajs/eden": "^1.4.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.14.0",
