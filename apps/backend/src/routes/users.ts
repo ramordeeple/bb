@@ -1,17 +1,13 @@
-import { Elysia, t } from 'elysia';
-import { eq } from 'drizzle-orm';
-import { CreateUserSchema, UserSchema } from '@bb/schemas';
-import { db } from '../db';
-import { users } from '../db/schema';
+import {Elysia, t} from 'elysia';
+import {eq} from 'drizzle-orm';
+import {CreateUserSchema, UserSchema, ErrorResponseSchema} from '@bb/schemas';
+import {db} from '../db';
+import {users} from '../db/schema';
 
-const ErrorSchema = t.Object({
-  message: t.String(),
-});
-
-export const usersRoutes = new Elysia({ prefix: '/users' })
+export const usersRoutes = new Elysia({prefix: '/users'})
   .post(
     '/',
-    async ({ body, status }) => {
+    async ({body, status}) => {
       const existing = await db
         .select()
         .from(users)
@@ -19,7 +15,7 @@ export const usersRoutes = new Elysia({ prefix: '/users' })
         .limit(1);
 
       if (existing.length > 0) {
-        return status(409, { message: 'Email already in use' });
+        return status(409, {message: 'Email already in use'});
       }
 
       const passwordHash = await Bun.password.hash(body.password);
@@ -44,13 +40,13 @@ export const usersRoutes = new Elysia({ prefix: '/users' })
       body: CreateUserSchema,
       response: {
         200: UserSchema,
-        409: ErrorSchema,
+        409: ErrorResponseSchema,
       },
     }
   )
   .get(
     '/:id',
-    async ({ params, status }) => {
+    async ({params, status}) => {
       const [user] = await db
         .select()
         .from(users)
@@ -58,7 +54,7 @@ export const usersRoutes = new Elysia({ prefix: '/users' })
         .limit(1);
 
       if (!user) {
-        return status(404, { message: 'User not found' });
+        return status(404, {message: 'User not found'});
       }
 
       return {
@@ -70,11 +66,11 @@ export const usersRoutes = new Elysia({ prefix: '/users' })
     },
     {
       params: t.Object({
-        id: t.String({ format: 'uuid' }),
+        id: t.String({format: 'uuid'}),
       }),
       response: {
         200: UserSchema,
-        404: ErrorSchema,
+        404: ErrorResponseSchema,
       },
     }
   );
